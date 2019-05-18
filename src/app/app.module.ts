@@ -7,9 +7,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LoginComponent } from './components/login/login.component';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSnackBarModule } from "@angular/material";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { AuthService } from "./services/auth.service";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { AuthService } from "./auth/auth.service";
 import { AdminModule } from "./admin/admin.module";
+import { AuthInterceptor } from "./auth/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,14 @@ import { AdminModule } from "./admin/admin.module";
     MatInputModule,
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
