@@ -1,0 +1,28 @@
+<div class="container">
+  <mat-card>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item *ngFor="let project of projects; last as last" role="listitem">
+          <span>{{project.name}}</span>
+          <span class="filler"></span>
+          <button mat-icon-button>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>keyboard_arrow_up</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
+<button class="floating-action-button" mat-fab color="accent">
+  <mat-icon>add</mat-icon>
+</button>

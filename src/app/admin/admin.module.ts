@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './components/main/main.component';
-import { MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatToolbarModule } from "@angular/material";
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatListModule,
+  MatMenuModule,
+  MatToolbarModule
+} from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { ProjectsComponent } from './components/projects/projects.component';
 import { AdminsComponent } from './components/admins/admins.component';
@@ -13,6 +20,7 @@ import { AdminsComponent } from './components/admins/admins.component';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatListModule,
     MatMenuModule,
     MatToolbarModule
   ],
