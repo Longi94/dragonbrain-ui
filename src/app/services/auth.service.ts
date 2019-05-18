@@ -3,13 +3,15 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { tap } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private router: Router) {
   }
 
   login(username: string, password: string): Observable<any> {
@@ -28,5 +30,14 @@ export class AuthService {
         }
       )
     )
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/']).then();
+  }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem('token') != null;
   }
 }

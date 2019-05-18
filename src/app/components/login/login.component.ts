@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
               private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['admin']).then();
+    }
   }
 
   login() {

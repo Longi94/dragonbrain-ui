@@ -9,6 +9,7 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSnackBarModule 
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthService } from "./services/auth.service";
+import { AdminModule } from "./admin/admin.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AuthService } from "./services/auth.service";
   ],
   imports: [
     BrowserModule,
+    AdminModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
