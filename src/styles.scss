@@ -1,1 +1,11 @@
 @import "~@angular/material/prebuilt-themes/purple-green.css";
+
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  color: white;
+  background-color: #303030;
+}
