@@ -5,8 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LoginComponent } from './components/login/login.component';
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from "@angular/material";
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSnackBarModule } from "@angular/material";
 import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { AuthService } from "./services/auth.service";
 
 @NgModule({
   declarations: [
@@ -18,9 +20,11 @@ import { FormsModule } from "@angular/forms";
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
