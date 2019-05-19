@@ -34,7 +34,7 @@ export class EditComponentComponent implements OnInit {
         this.dialogRef.close(project);
       }, error => {
         this.snackBar.open(`Failed to update project: ${error.error.message}`, null, {duration: 2000});
-      })
+      });
     } else {
       this.projectService.addProject(this.project).subscribe(project => {
         this.dialogRef.close(project);
