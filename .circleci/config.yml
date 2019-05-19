@@ -1,0 +1,61 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: ~/dragonbrain-ui
+    docker:
+      - image: circleci/node:12.2-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: install-dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: angular-build
+          command: ng build --prod
+      - store_artifacts:
+          path: dist/dragonbrain-ui
+      - persist_to_workspace:
+          root: dist
+          paths:
+            - dragonbrain-ui
+  deploy:
+    working_directory: ~/dragonbrain-ui
+    machine:
+      enabled: true
+    steps:
+      - attach_workspace:
+          at: ~/dist/dragonbrain-ui
+      - run:
+          name: Remove old files
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S rm -r $DRAGONBRAIN_UI_DIR/*"
+      - run:
+          name: Create dir for files in home
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "mkdir ~/dragonbrain-ui"
+      - run:
+          name: Copy artifacts to host
+          command: scp -P $SSH_PORT dist/dragonbrain-ui/* "$SSH_USER@$SSH_HOST:/home/$SSH_USER/dragonbrain-ui/"
+      - run:
+          name: Copy artifacts to deploy folder
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S mv ~/dragonbrain-ui/* $DRAGONBRAIN_UI_DIR/"
+      - run:
+          name: Remove dir in home
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "rmdir ~/dragonbrain-ui"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
