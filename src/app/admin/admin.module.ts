@@ -10,7 +10,8 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTooltipModule
 } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { ProjectsComponent } from './components/projects/projects.component';
@@ -31,7 +32,8 @@ import { FormsModule } from "@angular/forms";
     MatInputModule,
     MatListModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule
   ],
   declarations: [MainComponent, ProjectsComponent, AdminsComponent, EditComponentComponent],
   entryComponents: [MainComponent, EditComponentComponent]

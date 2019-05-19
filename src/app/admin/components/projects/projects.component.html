@@ -2,19 +2,19 @@
   <mat-card>
     <mat-card-content>
       <mat-list role="list">
-        <mat-list-item *ngFor="let project of projects; last as last" role="listitem">
+        <mat-list-item *ngFor="let project of projects; last as last; first as first" role="listitem">
           <span>{{project.name}}</span>
           <span class="filler"></span>
-          <button mat-icon-button>
+          <button mat-icon-button [disabled]="last" matTooltip="Move down">
             <mat-icon>keyboard_arrow_down</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button [disabled]="first" matTooltip="Move up">
             <mat-icon>keyboard_arrow_up</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button matTooltip="Edit">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="deleteProject(project)">
+          <button mat-icon-button matTooltip="Delete" (click)="deleteProject(project)">
             <mat-icon>delete</mat-icon>
           </button>
           <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
