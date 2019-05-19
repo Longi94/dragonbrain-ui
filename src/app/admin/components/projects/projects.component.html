@@ -14,7 +14,7 @@
           <button mat-icon-button>
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button (click)="deleteProject(project)">
             <mat-icon>delete</mat-icon>
           </button>
           <mat-divider [inset]="true" *ngIf="!last"></mat-divider>

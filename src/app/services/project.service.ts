@@ -22,4 +22,8 @@ export class ProjectService {
     const options = {headers: {'Content-Type': 'application/json'}};
     return this.httpClient.post<Project>(BASE, JSON.stringify(project), options);
   }
+
+  deleteProject(id: number): Observable<any> {
+    return this.httpClient.delete(`${BASE}/${id}`);
+  }
 }
