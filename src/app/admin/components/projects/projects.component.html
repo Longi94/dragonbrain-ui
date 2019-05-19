@@ -5,10 +5,10 @@
         <mat-list-item *ngFor="let project of projects; last as last; first as first" role="listitem">
           <span>{{project.name}}</span>
           <span class="filler"></span>
-          <button mat-icon-button [disabled]="last" matTooltip="Move down">
+          <button mat-icon-button [disabled]="last" matTooltip="Move down" (click)="moveProject(project, false)">
             <mat-icon>keyboard_arrow_down</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="first" matTooltip="Move up">
+          <button mat-icon-button [disabled]="first" matTooltip="Move up" (click)="moveProject(project, true)">
             <mat-icon>keyboard_arrow_up</mat-icon>
           </button>
           <button mat-icon-button matTooltip="Edit">

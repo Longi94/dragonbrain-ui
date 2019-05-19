@@ -29,6 +29,29 @@ export class ProjectsComponent implements OnInit {
     this.projects = this.projects.sort((a, b) => a.orderBy - b.orderBy);
   }
 
+  moveProject(project: Project, up: boolean) {
+    this.projectService.moveProject(project.id, up).subscribe(() => {
+      let index = this.projects.indexOf(project);
+      if (index > -1) {
+        if (up && index > 0) {
+          let other = this.projects[index - 1];
+          let tmp = other.orderBy;
+          other.orderBy = project.orderBy;
+          project.orderBy = tmp;
+          this.sortProjects();
+        } else if (!up && index < this.projects.length - 1) {
+          let other = this.projects[index + 1];
+          let tmp = other.orderBy;
+          other.orderBy = project.orderBy;
+          project.orderBy = tmp;
+          this.sortProjects();
+        }
+      }
+    }, error => {
+      this.snackBar.open(`Failed to move ${project.name}: ${error.error.message}`, null, {duration: 2000});
+    })
+  }
+
   openCreateDialog() {
     const dialogRef = this.dialog.open(EditComponentComponent, {
       width: '500px'

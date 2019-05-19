@@ -26,4 +26,14 @@ export class ProjectService {
   deleteProject(id: number): Observable<any> {
     return this.httpClient.delete(`${BASE}/${id}`);
   }
+
+  moveProject(id: number, up: boolean): Observable<any> {
+    const form = new FormData();
+    if (up) {
+      form.append('up', 'true');
+    } else {
+      form.append('up', 'false');
+    }
+    return this.httpClient.post(`${BASE}/${id}/move`, form);
+  }
 }
