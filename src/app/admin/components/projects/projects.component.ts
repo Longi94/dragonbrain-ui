@@ -65,6 +65,23 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  openEditDialog(project: Project) {
+    const dialogRef = this.dialog.open(EditComponentComponent, {
+      width: '500px',
+      data: project
+    });
+
+    dialogRef.afterClosed().subscribe(newProject => {
+      if (newProject) {
+        let index = this.projects.indexOf(project);
+        if (index > -1) {
+          this.projects[index] = newProject;
+          this.sortProjects();
+        }
+      }
+    });
+  }
+
   deleteProject(project: Project) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '500px',

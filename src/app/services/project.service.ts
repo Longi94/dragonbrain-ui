@@ -36,4 +36,9 @@ export class ProjectService {
     }
     return this.httpClient.post(`${BASE}/${id}/move`, form);
   }
+
+  updateProject(project: Project): Observable<any> {
+    const options = {headers: {'Content-Type': 'application/json'}};
+    return this.httpClient.put(`${BASE}/${project.id}`, JSON.stringify(project), options);
+  }
 }

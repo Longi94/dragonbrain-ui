@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Project } from "../../../../model/project";
 import { ProjectService } from "../../../../services/project.service";
-import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from "@angular/material";
 
 @Component({
   selector: 'app-edit-component',
@@ -11,22 +11,36 @@ import { MatDialogRef, MatSnackBar } from "@angular/material";
 export class EditComponentComponent implements OnInit {
 
   project: Project = new Project();
+  edit: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<EditComponentComponent>,
     private projectService: ProjectService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: Project
   ) {
+    if (data) {
+      this.project = Project.clone(data);
+      this.edit = true;
+    }
   }
 
   ngOnInit() {
   }
 
-  createProject() {
-    this.projectService.addProject(this.project).subscribe(project => {
-      this.dialogRef.close(project);
-    }, error => {
-      this.snackBar.open(`Failed to create project: ${error.error.message}`, null, {duration: 2000});
-    });
+  submitProject() {
+    if (this.edit) {
+      this.projectService.updateProject(this.project).subscribe(project => {
+        this.dialogRef.close(project);
+      }, error => {
+        this.snackBar.open(`Failed to update project: ${error.error.message}`, null, {duration: 2000});
+      })
+    } else {
+      this.projectService.addProject(this.project).subscribe(project => {
+        this.dialogRef.close(project);
+      }, error => {
+        this.snackBar.open(`Failed to create project: ${error.error.message}`, null, {duration: 2000});
+      });
+    }
   }
 }
