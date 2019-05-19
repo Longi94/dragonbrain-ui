@@ -21,13 +21,24 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.projectService.getProjects().subscribe(projects => {
       this.projects = projects;
-      this.projects = this.projects.sort((a, b) => a.orderBy - b.orderBy);
+      this.sortProjects();
     }, error => console.error(error));
+  }
+
+  private sortProjects() {
+    this.projects = this.projects.sort((a, b) => a.orderBy - b.orderBy);
   }
 
   openCreateDialog() {
     const dialogRef = this.dialog.open(EditComponentComponent, {
       width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(project => {
+      if (project) {
+        this.projects.push(project);
+        this.sortProjects();
+      }
     });
   }
 
