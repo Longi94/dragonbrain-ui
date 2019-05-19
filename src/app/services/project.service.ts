@@ -11,9 +11,15 @@ const BASE = `${environment.backend}/api/projects`;
 })
 export class ProjectService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   getProjects(): Observable<Project[]> {
     return this.httpClient.get<Project[]>(BASE);
+  }
+
+  addProject(project: Project): Observable<Project> {
+    const options = {headers: {'Content-Type': 'application/json'}};
+    return this.httpClient.post<Project>(BASE, JSON.stringify(project), options);
   }
 }

@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Edit project details</h2>
+<mat-dialog-content>
+  <div class="project-form">
+    <mat-form-field>
+      <input matInput placeholder="Title" [(ngModel)]="project.name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Type" [(ngModel)]="project.type">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Source" [(ngModel)]="project.sourceUrl">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Link" [(ngModel)]="project.url">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Image link" [(ngModel)]="project.image">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea  matInput placeholder="Description" [(ngModel)]="project.description"></textarea>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button (click)="createProject()">Save</button>
+</mat-dialog-actions>
