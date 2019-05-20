@@ -10,6 +10,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
+          name: install angular cli
+          command: sudo npm install -g @angular/cli
+      - run:
           name: install-dependencies
           command: npm install
       - save_cache:
@@ -18,7 +21,7 @@ jobs:
             - ./node_modules
       - run:
           name: angular-build
-          command: npm run build -- --prod
+          command: ng build --prod
       - store_artifacts:
           path: dist/dragonbrain-ui
       - persist_to_workspace:
