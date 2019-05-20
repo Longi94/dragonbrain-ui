@@ -37,10 +37,10 @@ jobs:
           at: dist/dragonbrain-ui
       - run:
           name: Remove old files
-          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S rm -r $DRAGONBRAIN_UI_DIR/* || true"
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S rm -rf $DRAGONBRAIN_UI_DIR/*"
       - run:
           name: Create dir for files in home
-          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "mkdir ~/dragonbrain-ui"
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "mkdir -p ~/dragonbrain-ui"
       - run:
           name: Copy artifacts to host
           command: scp -P $SSH_PORT dist/dragonbrain-ui/* "$SSH_USER@$SSH_HOST:/home/$SSH_USER/dragonbrain-ui/"
@@ -49,7 +49,7 @@ jobs:
           command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S mv ~/dragonbrain-ui/* $DRAGONBRAIN_UI_DIR/"
       - run:
           name: Remove dir in home
-          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "rmdir ~/dragonbrain-ui"
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "rm -rf ~/dragonbrain-ui/"
 
 workflows:
   version: 2
