@@ -34,7 +34,7 @@ jobs:
       enabled: true
     steps:
       - attach_workspace:
-          at: dist/dragonbrain-ui
+          at: dist
       - run:
           name: Remove old files
           command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S rm -rf $DRAGONBRAIN_UI_DIR/*"
