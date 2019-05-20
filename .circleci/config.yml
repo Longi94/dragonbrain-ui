@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/dragonbrain-ui
     docker:
-      - image: circleci/node:12.2-browsers
+      - image: circleci/node:8.13-browsers
     steps:
       - checkout
       - restore_cache:
