@@ -37,7 +37,7 @@ jobs:
           at: ~/dist/dragonbrain-ui
       - run:
           name: Remove old files
-          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S rm -r $DRAGONBRAIN_UI_DIR/*"
+          command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "echo $SSH_PASS | sudo -S rm -r $DRAGONBRAIN_UI_DIR/* || true"
       - run:
           name: Create dir for files in home
           command: ssh $SSH_USER@$SSH_HOST -p $SSH_PORT "mkdir ~/dragonbrain-ui"
