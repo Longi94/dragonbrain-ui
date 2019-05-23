@@ -10,7 +10,8 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTooltipModule
 } from "@angular/material";
 import { FormsModule } from "@angular/forms";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
@@ -18,12 +19,14 @@ import { AuthService } from "./auth/auth.service";
 import { AdminModule } from "./admin/admin.module";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   providers: [
     {

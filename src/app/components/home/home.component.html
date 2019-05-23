@@ -1,0 +1,25 @@
+<div class="main-container">
+  <div class="header">
+    <div class="avatar">
+      <img src="/assets/minavatar.png" [@avatarAnim]="showAvatar ? 'shown' : 'hidden'">
+    </div>
+    <span class="user-name" [@textAppearAnim]="showName ? 'shown' : 'hidden'">Long Tran</span>
+    <span class="user-title" [@textAppearAnim]="showTitle ? 'shown' : 'hidden'">Software Developer</span>
+    <div class="links-container">
+      <div class="link-container" *ngFor="let link of links">
+        <a mat-icon-button *ngIf="link.a" target="_blank" [href]="link.a" [matTooltip]="link.tooltip"
+           [@textAppearAnim]="link.shown ? 'shown' : 'hidden'">
+          <svg viewBox="0 0 24 24">
+            <path [attr.d]="link['svg']"></path>
+          </svg>
+        </a>
+        <button mat-icon-button *ngIf="link.click" (click)="link.click()" [matTooltip]="link.tooltip"
+                [@textAppearAnim]="link.shown ? 'shown' : 'hidden'">
+          <svg viewBox="0 0 24 24">
+            <path [attr.d]="link['svg']"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

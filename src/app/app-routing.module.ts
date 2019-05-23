@@ -5,8 +5,13 @@ import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
 import { MainComponent } from "./admin/components/main/main.component";
 import { ProjectsComponent } from "./admin/components/projects/projects.component";
 import { AdminsComponent } from "./admin/components/admins/admins.component";
+import { HomeComponent } from "./components/home/home.component";
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
   {
     path: 'login',
     pathMatch: 'full',

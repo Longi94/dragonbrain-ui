@@ -1,0 +1,49 @@
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  margin-top: 32px;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.avatar > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 128px;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+}
+
+.user-name {
+  font-size: 36px;
+}
+
+.user-title {
+  font-size: 24px;
+}
+
+.links-container {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.links-container svg {
+  fill: #fff;
+}
+
+.link-container {
+  margin: 8px;
+}
