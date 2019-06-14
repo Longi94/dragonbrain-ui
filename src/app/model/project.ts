@@ -9,7 +9,7 @@ export class Project {
   orderBy: number;
 
   static clone(other: Project): Project {
-    let project = new Project();
+    const project = new Project();
 
     project.id = other.id;
     project.name = other.name;

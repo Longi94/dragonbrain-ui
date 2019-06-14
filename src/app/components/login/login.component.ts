@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../auth/auth.service";
-import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material";
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username, this.password).subscribe(() => {
       this.router.navigate(['admin']).then();
     }, error => {
-      if (error.status == 401) {
+      if (error.status === 401) {
         this.snackBar.open('Invalid username of password', null, {
           duration: 2000
         });

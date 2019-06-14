@@ -20,9 +20,9 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 })
 export class HomeComponent implements OnInit {
 
-  showAvatar: boolean = false;
-  showName: boolean = false;
-  showTitle: boolean = false;
+  showAvatar = false;
+  showName = false;
+  showTitle = false;
 
   links: LinkItem[] = [
     {

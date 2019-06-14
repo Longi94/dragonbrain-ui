@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from "../../../services/project.service";
-import { Project } from "../../../model/project";
-import { MatDialog, MatSnackBar } from "@angular/material";
-import { EditComponentComponent } from "./edit-component/edit-component.component";
-import { ConfirmDialogComponent } from "../../../components/confirm-dialog/confirm-dialog.component";
+import { ProjectService } from '../../../services/project.service';
+import { Project } from '../../../model/project';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { EditComponentComponent } from './edit-component/edit-component.component';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-projects',
@@ -31,17 +31,17 @@ export class ProjectsComponent implements OnInit {
 
   moveProject(project: Project, up: boolean) {
     this.projectService.moveProject(project.id, up).subscribe(() => {
-      let index = this.projects.indexOf(project);
+      const index = this.projects.indexOf(project);
       if (index > -1) {
         if (up && index > 0) {
-          let other = this.projects[index - 1];
-          let tmp = other.orderBy;
+          const other = this.projects[index - 1];
+          const tmp = other.orderBy;
           other.orderBy = project.orderBy;
           project.orderBy = tmp;
           this.sortProjects();
         } else if (!up && index < this.projects.length - 1) {
-          let other = this.projects[index + 1];
-          let tmp = other.orderBy;
+          const other = this.projects[index + 1];
+          const tmp = other.orderBy;
           other.orderBy = project.orderBy;
           project.orderBy = tmp;
           this.sortProjects();
@@ -49,7 +49,7 @@ export class ProjectsComponent implements OnInit {
       }
     }, error => {
       this.snackBar.open(`Failed to move ${project.name}: ${error.error.message}`, null, {duration: 2000});
-    })
+    });
   }
 
   openCreateDialog() {
@@ -73,7 +73,7 @@ export class ProjectsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(newProject => {
       if (newProject) {
-        let index = this.projects.indexOf(project);
+        const index = this.projects.indexOf(project);
         if (index > -1) {
           this.projects[index] = newProject;
           this.sortProjects();
@@ -92,7 +92,7 @@ export class ProjectsComponent implements OnInit {
       if (result) {
         this.projectService.deleteProject(project.id).subscribe(() => {
           this.snackBar.open(`${project.name} deleted`, null, {duration: 2000});
-          let index = this.projects.indexOf(project);
+          const index = this.projects.indexOf(project);
           if (index > -1) {
             this.projects.splice(index, 1);
           }
@@ -100,6 +100,6 @@ export class ProjectsComponent implements OnInit {
           this.snackBar.open(`Failed to delete ${project.name}: ${error.error.message}`, null, {duration: 2000});
         });
       }
-    })
+    });
   }
 }

@@ -12,12 +12,12 @@ import {
   MatMenuModule,
   MatToolbarModule,
   MatTooltipModule
-} from "@angular/material";
-import { RouterModule } from "@angular/router";
+} from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { AdminsComponent } from './components/admins/admins.component';
 import { EditComponentComponent } from './components/projects/edit-component/edit-component.component';
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
