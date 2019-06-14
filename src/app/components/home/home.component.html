@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="header">
     <div class="avatar">
-      <img src="/assets/minavatar.png" [@avatarAnim]="showAvatar ? 'shown' : 'hidden'">
+      <img src="/assets/img/minavatar.png" [@avatarAnim]="showAvatar ? 'shown' : 'hidden'" (load)="startAnimation()">
     </div>
     <span class="user-name" [@textAppearAnim]="showName ? 'shown' : 'hidden'">Long Tran</span>
     <span class="user-title" [@textAppearAnim]="showTitle ? 'shown' : 'hidden'">Software Developer</span>

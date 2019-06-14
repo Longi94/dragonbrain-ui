@@ -18,7 +18,7 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
     ])
   ]
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
 
   showAvatar: boolean = false;
   showName: boolean = false;
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
+  startAnimation(): void {
     setTimeout(() => this.showAvatar = true, 500);
     setTimeout(() => this.showName = true, 700);
     setTimeout(() => this.showTitle = true, 800);
