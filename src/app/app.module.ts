@@ -19,13 +19,15 @@ import { AdminModule } from './admin/admin.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { HomeComponent } from './components/home/home.component';
+import { VoronoiComponent } from './components/voronoi/voronoi.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ConfirmDialogComponent,
-    HomeComponent
+    HomeComponent,
+    VoronoiComponent
   ],
   imports: [
     BrowserModule,
