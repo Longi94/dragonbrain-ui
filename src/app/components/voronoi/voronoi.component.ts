@@ -77,7 +77,11 @@ export class VoronoiComponent implements OnInit {
     }
 
     while (this.particles.length < PARTICLE_COUNT) {
-      this.particles.push(Particle.random(this.width, this.height));
+      const p = this.particles[Math.floor(Math.random() * this.particles.length)];
+      const newP = Particle.random(this.width, this.height);
+      newP.position.x = p.position.x;
+      newP.position.y = p.position.y;
+      this.particles.push(newP);
     }
 
     this.currentTime = currentTs;
