@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 const SPEED = 10;
 const FPS = 25;
-const PARTICLE_COUNT = 200;
+const PIXEL_PER_PARTICLE = 10000;
 const MAX_DISTANCE_FROM_MOUSE = 400;
 const MAX_MOUSE_OPACITY = 0.07;
 const MOUSE_EDGE_SHADE = 150;
@@ -30,7 +30,7 @@ export class VoronoiComponent implements OnInit {
   private currentTime: number;
   private canvasMousePos: Vector2D = new Vector2D(-1, -1);
   private mouseInCanvas = false;
-
+  private particleCount: number;
   private voronoiBounds: number[];
 
   private timer;
@@ -53,6 +53,7 @@ export class VoronoiComponent implements OnInit {
   init() {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
+    const particleCount = this.width * this.height / PIXEL_PER_PARTICLE;
 
     this.voronoiBounds = [0 - MARGIN, 0 - MARGIN, this.width + MARGIN, this.height + MARGIN];
 
@@ -63,7 +64,7 @@ export class VoronoiComponent implements OnInit {
 
     this.context = this.canvas.getContext('2d');
 
-    this.particles = Array.from({length: PARTICLE_COUNT}, () => Particle.random(this.width, this.height, MARGIN));
+    this.particles = Array.from({length: particleCount}, () => Particle.random(this.width, this.height, MARGIN));
 
     this.currentTime = Date.now();
 
