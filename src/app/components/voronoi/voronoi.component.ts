@@ -22,6 +22,7 @@ export class VoronoiComponent implements OnInit {
   private particles: Particle[];
   private currentTime: number;
   private canvasMousePos: Vector2D = new Vector2D(-1, -1);
+  private mouseInCanvas = false;
 
   constructor() {
   }
@@ -39,6 +40,9 @@ export class VoronoiComponent implements OnInit {
 
     this.context.canvas.ontouchmove = event => this.onCanvasMouseMove(event);
     this.context.canvas.onmousemove = event => this.onCanvasMouseMove(event);
+    this.context.canvas.onmouseout = event => {
+      this.mouseInCanvas = false;
+    };
 
     this.update();
 
@@ -46,6 +50,7 @@ export class VoronoiComponent implements OnInit {
   }
 
   private onCanvasMouseMove(event) {
+    this.mouseInCanvas = true;
     this.canvasMousePos.x = event.layerX;
     this.canvasMousePos.y = event.layerY;
   }
@@ -62,7 +67,7 @@ export class VoronoiComponent implements OnInit {
 
     this.context.clearRect(0, 0, this.width, this.height);
 
-    if (this.canvasMousePos.x >= 0 && this.canvasMousePos.y >= 0) {
+    if (this.mouseInCanvas && this.canvasMousePos.x >= 0 && this.canvasMousePos.y >= 0) {
 
       for (let i = 0; i < this.particles.length; i++) {
         if (voronoi.contains(i, this.canvasMousePos.x, this.canvasMousePos.y)) {
