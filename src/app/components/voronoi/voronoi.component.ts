@@ -116,10 +116,10 @@ export class VoronoiComponent implements OnInit {
     this.context.lineWidth = 3;
     this.context.stroke();
 
-    this.context.beginPath();
-    delaunay.renderPoints(this.context);
-    this.context.fillStyle = '#fff';
-    this.context.fill();
+    // this.context.beginPath();
+    // delaunay.renderPoints(this.context);
+    // this.context.fillStyle = '#fff';
+    // this.context.fill();
   }
 
   private updateParticles() {
