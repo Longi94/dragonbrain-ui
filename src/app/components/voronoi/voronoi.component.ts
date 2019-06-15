@@ -1,10 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Delaunay } from 'd3-delaunay';
 import { Vector2D } from '../../model/vector';
+import * as d3 from 'd3';
 
 const SPEED = 10;
 const FPS = 25;
 const PARTICLE_COUNT = 100;
+const MAX_DISTANCE_FROM_MOUSE = 400;
+const MAX_MOUSE_OPACITY = 0.1;
 
 @Component({
   selector: 'app-voronoi',
@@ -13,8 +16,9 @@ const PARTICLE_COUNT = 100;
 })
 export class VoronoiComponent implements OnInit {
 
-  @ViewChild('canvas')
+  @ViewChild('canvasContainer')
   private canvasContainer: ElementRef;
+  private container: HTMLDivElement;
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private width: number;
@@ -28,11 +32,17 @@ export class VoronoiComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.canvas = this.canvasContainer.nativeElement;
-    this.context = this.canvas.getContext('2d');
+    this.container = this.canvasContainer.nativeElement;
 
-    this.width = this.canvas.offsetWidth;
-    this.height = this.canvas.offsetHeight;
+    this.width = this.container.offsetWidth;
+    this.height = this.container.offsetHeight;
+
+    this.canvas = d3.select(this.container).append('canvas')
+      .attr('width', this.width)
+      .attr('height', this.height)
+      .node();
+
+    this.context = this.canvas.getContext('2d');
 
     this.particles = Array.from({length: 100}, () => Particle.random(this.width, this.height));
 
@@ -40,9 +50,7 @@ export class VoronoiComponent implements OnInit {
 
     this.context.canvas.ontouchmove = event => this.onCanvasMouseMove(event);
     this.context.canvas.onmousemove = event => this.onCanvasMouseMove(event);
-    this.context.canvas.onmouseout = event => {
-      this.mouseInCanvas = false;
-    };
+    this.context.canvas.onmouseout = () => this.mouseInCanvas = false;
 
     this.update();
 
@@ -70,30 +78,43 @@ export class VoronoiComponent implements OnInit {
     if (this.mouseInCanvas && this.canvasMousePos.x >= 0 && this.canvasMousePos.y >= 0) {
 
       for (let i = 0; i < this.particles.length; i++) {
+        const p = this.particles[i];
+        const d = this.canvasMousePos.distance(p.position);
+
+        let opacity = 0;
         if (voronoi.contains(i, this.canvasMousePos.x, this.canvasMousePos.y)) {
+          opacity = MAX_MOUSE_OPACITY;
+        } else if (d < MAX_DISTANCE_FROM_MOUSE) {
+          opacity = MAX_MOUSE_OPACITY * ((MAX_DISTANCE_FROM_MOUSE - d) / MAX_DISTANCE_FROM_MOUSE);
+        }
+
+        if (opacity > 0) {
           const cell = voronoi.cellPolygon(i);
-          this.context.beginPath();
-          this.context.moveTo(cell[0][0], cell[0][1]);
-          for (let k = 1; k < cell.length - 1; k++) {
-            this.context.lineTo(cell[k][0], cell[k][1]);
+          if (cell) {
+            this.context.beginPath();
+            this.context.moveTo(cell[0][0], cell[0][1]);
+            for (let k = 1; k < cell.length - 1; k++) {
+              this.context.lineTo(cell[k][0], cell[k][1]);
+            }
+            this.context.lineTo(cell[cell.length - 1][0], cell[cell.length - 1][1]);
+            this.context.closePath();
+            this.context.fillStyle = `rgba(255,255,255,${opacity})`;
+            this.context.fill();
           }
-          this.context.lineTo(cell[cell.length - 1][0], cell[cell.length - 1][1]);
-          this.context.closePath();
-          this.context.fillStyle = '#f00';
-          this.context.fill();
         }
       }
     }
 
     this.context.beginPath();
     voronoi.render(this.context);
-    this.context.strokeStyle = '#fff';
+    this.context.strokeStyle = 'rgb(116,116,116)';
+    this.context.lineWidth = 3;
     this.context.stroke();
 
-    this.context.beginPath();
-    delaunay.renderPoints(this.context);
-    this.context.fillStyle = '#fff';
-    this.context.fill();
+    // this.context.beginPath();
+    // delaunay.renderPoints(this.context);
+    // this.context.fillStyle = '#fff';
+    // this.context.fill();
   }
 
   private updateParticles() {

@@ -19,4 +19,8 @@ export class Vector2D {
   scale(n: number): Vector2D {
     return new Vector2D(this.x * n, this.y * n);
   }
+
+  distance(other: Vector2D): number {
+    return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+  }
 }
