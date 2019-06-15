@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Delaunay } from 'd3-delaunay';
 import { Vector2D } from '../../model/vector';
 import * as d3 from 'd3';
@@ -21,6 +21,7 @@ export class VoronoiComponent implements OnInit {
   @ViewChild('canvasContainer')
   private canvasContainer: ElementRef;
   private container: HTMLDivElement;
+  private canvasSelector;
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private width: number;
@@ -32,18 +33,30 @@ export class VoronoiComponent implements OnInit {
 
   private voronoiBounds: number[];
 
+  private timer;
+
   constructor() {
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    clearTimeout(this.timer);
+    this.init();
   }
 
   ngOnInit() {
     this.container = this.canvasContainer.nativeElement;
+    this.canvasSelector = d3.select(this.container).append('canvas');
+    this.init();
+  }
 
+  init() {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
 
     this.voronoiBounds = [0 - MARGIN, 0 - MARGIN, this.width + MARGIN, this.height + MARGIN];
 
-    this.canvas = d3.select(this.container).append('canvas')
+    this.canvas = this.canvasSelector
       .attr('width', this.width)
       .attr('height', this.height)
       .node();
@@ -60,7 +73,7 @@ export class VoronoiComponent implements OnInit {
 
     this.update();
 
-    setTimeout(() => this.frame(), 1000 / FPS);
+    this.timer = setTimeout(() => this.frame(), 1000 / FPS);
   }
 
   private onCanvasMouseMove(event) {
@@ -72,7 +85,7 @@ export class VoronoiComponent implements OnInit {
   private frame() {
     this.updateParticles();
     this.update();
-    setTimeout(() => this.frame(), 1000 / FPS);
+    this.timer = setTimeout(() => this.frame(), 1000 / FPS);
   }
 
   private update() {
