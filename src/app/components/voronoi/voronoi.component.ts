@@ -21,6 +21,7 @@ export class VoronoiComponent implements OnInit {
   private height: number;
   private particles: Particle[];
   private currentTime: number;
+  private canvasMousePos: Vector2D = new Vector2D(-1, -1);
 
   constructor() {
   }
@@ -36,9 +37,17 @@ export class VoronoiComponent implements OnInit {
 
     this.currentTime = Date.now();
 
+    this.context.canvas.ontouchmove = event => this.onCanvasMouseMove(event);
+    this.context.canvas.onmousemove = event => this.onCanvasMouseMove(event);
+
     this.update();
 
     setTimeout(() => this.frame(), 1000 / FPS);
+  }
+
+  private onCanvasMouseMove(event) {
+    this.canvasMousePos.x = event.layerX;
+    this.canvasMousePos.y = event.layerY;
   }
 
   private frame() {
@@ -52,6 +61,24 @@ export class VoronoiComponent implements OnInit {
     const voronoi = delaunay.voronoi([0, 0, this.width, this.height]);
 
     this.context.clearRect(0, 0, this.width, this.height);
+
+    if (this.canvasMousePos.x >= 0 && this.canvasMousePos.y >= 0) {
+
+      for (let i = 0; i < this.particles.length; i++) {
+        if (voronoi.contains(i, this.canvasMousePos.x, this.canvasMousePos.y)) {
+          const cell = voronoi.cellPolygon(i);
+          this.context.beginPath();
+          this.context.moveTo(cell[0][0], cell[0][1]);
+          for (let k = 1; k < cell.length - 1; k++) {
+            this.context.lineTo(cell[k][0], cell[k][1]);
+          }
+          this.context.lineTo(cell[cell.length - 1][0], cell[cell.length - 1][1]);
+          this.context.closePath();
+          this.context.fillStyle = '#f00';
+          this.context.fill();
+        }
+      }
+    }
 
     this.context.beginPath();
     voronoi.render(this.context);
