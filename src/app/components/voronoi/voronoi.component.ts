@@ -8,6 +8,7 @@ const FPS = 25;
 const PARTICLE_COUNT = 100;
 const MAX_DISTANCE_FROM_MOUSE = 400;
 const MAX_MOUSE_OPACITY = 0.07;
+const MARGIN = 50;
 
 @Component({
   selector: 'app-voronoi',
@@ -28,6 +29,8 @@ export class VoronoiComponent implements OnInit {
   private canvasMousePos: Vector2D = new Vector2D(-1, -1);
   private mouseInCanvas = false;
 
+  private voronoiBounds: number[];
+
   constructor() {
   }
 
@@ -37,6 +40,8 @@ export class VoronoiComponent implements OnInit {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
 
+    this.voronoiBounds = [0 - MARGIN, 0 - MARGIN, this.width + MARGIN, this.height + MARGIN];
+
     this.canvas = d3.select(this.container).append('canvas')
       .attr('width', this.width)
       .attr('height', this.height)
@@ -44,7 +49,7 @@ export class VoronoiComponent implements OnInit {
 
     this.context = this.canvas.getContext('2d');
 
-    this.particles = Array.from({length: 100}, () => Particle.random(this.width, this.height));
+    this.particles = Array.from({length: PARTICLE_COUNT}, () => Particle.random(this.width, this.height, MARGIN));
 
     this.currentTime = Date.now();
 
@@ -71,7 +76,7 @@ export class VoronoiComponent implements OnInit {
 
   private update() {
     const delaunay = Delaunay.from(this.particles.map(p => p.position.toArray()));
-    const voronoi = delaunay.voronoi([0, 0, this.width, this.height]);
+    const voronoi = delaunay.voronoi(this.voronoiBounds);
 
     this.context.clearRect(0, 0, this.width, this.height);
 
@@ -111,10 +116,10 @@ export class VoronoiComponent implements OnInit {
     this.context.lineWidth = 3;
     this.context.stroke();
 
-    // this.context.beginPath();
-    // delaunay.renderPoints(this.context);
-    // this.context.fillStyle = '#fff';
-    // this.context.fill();
+    this.context.beginPath();
+    delaunay.renderPoints(this.context);
+    this.context.fillStyle = '#fff';
+    this.context.fill();
   }
 
   private updateParticles() {
@@ -123,10 +128,10 @@ export class VoronoiComponent implements OnInit {
     const t = (currentTs - this.currentTime) / 1000.0;
 
     for (const particle of this.particles) {
-      if (particle.position.x < 0 || particle.position.x > this.width) {
+      if (particle.position.x < this.voronoiBounds[0] || particle.position.x > this.voronoiBounds[2]) {
         particle.v.x = -particle.v.x;
       }
-      if (particle.position.y < 0 || particle.position.y > this.height) {
+      if (particle.position.y < this.voronoiBounds[1] || particle.position.y > this.voronoiBounds[3]) {
         particle.v.y = -particle.v.y;
       }
 
@@ -141,10 +146,10 @@ class Particle {
   position: Vector2D;
   v: Vector2D;
 
-  static random(width: number, height: number): Particle {
+  static random(width: number, height: number, margin: number): Particle {
     const p = new Particle();
     const angle = Math.random() * Math.PI * 2;
-    p.position = new Vector2D(Math.random() * width, Math.random() * height);
+    p.position = new Vector2D(Math.random() * (width + 2 * MARGIN) - MARGIN, Math.random() * (height + 2 * MARGIN) - MARGIN);
     p.v = new Vector2D(Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
     return p;
   }
