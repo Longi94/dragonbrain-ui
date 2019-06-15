@@ -7,7 +7,7 @@ const SPEED = 10;
 const FPS = 25;
 const PARTICLE_COUNT = 100;
 const MAX_DISTANCE_FROM_MOUSE = 400;
-const MAX_MOUSE_OPACITY = 0.1;
+const MAX_MOUSE_OPACITY = 0.07;
 
 @Component({
   selector: 'app-voronoi',
@@ -107,7 +107,7 @@ export class VoronoiComponent implements OnInit {
 
     this.context.beginPath();
     voronoi.render(this.context);
-    this.context.strokeStyle = 'rgb(116,116,116)';
+    this.context.strokeStyle = 'rgb(65,65,65)';
     this.context.lineWidth = 3;
     this.context.stroke();
 
@@ -122,19 +122,15 @@ export class VoronoiComponent implements OnInit {
 
     const t = (currentTs - this.currentTime) / 1000.0;
 
-    this.particles = this.particles.filter(p => p.position.x >= 0 && p.position.x <= this.width &&
-      p.position.y >= 0 && p.position.y <= this.height);
-
     for (const particle of this.particles) {
-      particle.update(t);
-    }
+      if (particle.position.x < 0 || particle.position.x > this.width) {
+        particle.v.x = -particle.v.x;
+      }
+      if (particle.position.y < 0 || particle.position.y > this.height) {
+        particle.v.y = -particle.v.y;
+      }
 
-    while (this.particles.length < PARTICLE_COUNT) {
-      const p = this.particles[Math.floor(Math.random() * this.particles.length)];
-      const newP = Particle.random(this.width, this.height);
-      newP.position.x = p.position.x;
-      newP.position.y = p.position.y;
-      this.particles.push(newP);
+      particle.update(t);
     }
 
     this.currentTime = currentTs;
