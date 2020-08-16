@@ -18,7 +18,7 @@ const MARGIN = 50;
 })
 export class VoronoiComponent implements OnInit {
 
-  @ViewChild('canvasContainer')
+  @ViewChild('canvasContainer', { static: true })
   private canvasContainer: ElementRef;
   private container: HTMLDivElement;
   private canvasSelector;
