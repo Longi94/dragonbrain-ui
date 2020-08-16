@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Project } from "../../../../model/project";
 import { ProjectService } from "../../../../services/project.service";
-import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-edit-component',
